@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>텍스트 변환기</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+        box-sizing: border-box;
+      }
+      .text_convert_container {
+        max-width: 860px;
+        margin: 0px auto;
+        padding: 20px;
+      }
+      .textarea {
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+      }
+      .btn_wrap {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+      }
+      .btn2 {
+        background-color: #241124;
+        margin: 5px 0 0 0;
+      }
+      .output {
+        width: 100%;
+        height: 100px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-top: 10px;
+        white-space: pre-line;
+        overflow-y: scroll;
+      }
+      .radio_btns {
+        display: flex;
+        padding-bottom: 10px;
+      }
+      .radio_btns label {
+        padding: 0 10px 0 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="text_convert_container">
+      <!-- 라디오 버튼 -->
+      <div class="radio_btns">
+        <input
+          type="radio"
+          id="oddEvenLines"
+          name="conversionType"
+          value="oddEven"
+          checked
+        />
+        <label for="oddEvenLines">복리후생</label><br />
+
+        <input
+          type="radio"
+          id="prependBullet"
+          name="conversionType"
+          value="prependBullet"
+        />
+        <label for="prependBullet">말머리 추가</label><br />
+
+        <input
+          type="radio"
+          id="removeEmptyLines"
+          name="conversionType"
+          value="removeEmptyLines"
+        />
+        <label for="removeEmptyLines">연속 줄바꿈 제거</label>
+      </div>
+
+      <textarea
+        id="inputText"
+        class="textarea"
+        placeholder="텍스트 레쯔기릿"
+      ></textarea>
+
+      <div class="btn_wrap">
+        <button class="btn" onclick="convertText()">컨버트</button>
+      </div>
+
+      <div class="output" id="outputText"></div>
+
+      <!-- 카피 버튼 -->
+      <div class="btn_wrap">
+        <button class="btn btn2" onclick="copyText()">텍스트 복사</button>
+      </div>
+    </div>
+
+    <script>
+      function convertText() {
+        // 입력된 텍스트 가져오기
+        var input = document.getElementById("inputText").value;
+
+        // 선택된 라디오 버튼 값 가져오기
+        var conversionType = document.querySelector(
+          'input[name="conversionType"]:checked'
+        ).value;
+
+        // 선택된 변환 유형에 따라 텍스트 변환
+        var output = "";
+        if (conversionType === "oddEven") {
+          var lines = input.split("\n");
+          for (var i = 0; i < lines.length; i += 2) {
+            output +=
+              "ㆍ" +
+              lines[i] +
+              (lines[i + 1] ? " : " + lines[i + 1] : "") +
+              "\n";
+          }
+        } else if (conversionType === "prependBullet") {
+          var lines = input.split("\n");
+          for (var i = 0; i < lines.length; i++) {
+            output += "ㆍ" + lines[i] + "\n";
+          }
+        } else if (conversionType === "removeEmptyLines") {
+          var lines = input.split("\n");
+          for (var i = 0; i < lines.length; i++) {
+            if (lines[i].trim() !== "") {
+              output += lines[i] + "\n";
+            }
+          }
+        }
+
+        // 변환된 텍스트를 출력 칸에 삽입
+        document.getElementById("outputText").innerText = output;
+      }
+
+      function copyText() {
+        // 출력 칸의 텍스트를 가져오기
+        var text = document.getElementById("outputText").innerText;
+
+        // 텍스트를 클립보드에 복사
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            alert("텍스트가 복사완료!");
+          })
+          .catch((err) => {
+            console.error("복사 실패ㅠㅠ:", err);
+          });
+      }
+    </script>
+  </body>
+</html>
