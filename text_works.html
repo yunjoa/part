@@ -85,6 +85,14 @@
           value="removeEmptyLines"
         />
         <label for="removeEmptyLines">연속 줄바꿈 제거</label>
+
+        <input
+          type="radio"
+          id="removeNumberedLines"
+          name="conversionType"
+          value="removeNumberedLines"
+        />
+        <label for="removeNumberedLines">넘버링 제거</label>
       </div>
 
       <textarea
@@ -107,7 +115,6 @@
 
     <script>
       function convertText() {
-        // 입력된 텍스트 가져오기
         var input = document.getElementById("inputText").value;
 
         // 선택된 라디오 버튼 값 가져오기
@@ -127,20 +134,27 @@
               "\n";
           }
         } else if (conversionType === "prependBullet") {
+          input = input.replace(/^"|"\s*$/gm, "");
           var lines = input.split("\n");
           for (var i = 0; i < lines.length; i++) {
             output += "ㆍ" + lines[i] + "\n";
           }
         } else if (conversionType === "removeEmptyLines") {
+          input = input.replace(/^"|"\s*$/gm, "");
           var lines = input.split("\n");
           for (var i = 0; i < lines.length; i++) {
             if (lines[i].trim() !== "") {
               output += lines[i] + "\n";
             }
           }
+        } else if (conversionType === "removeNumberedLines") {
+          var lines = input.split("\n");
+          for (var i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(/^"|"\s*|\d+\.?\s*/g, "");
+            output += "ㆍ" + lines[i] + "\n";
+          }
         }
 
-        // 변환된 텍스트를 출력 칸에 삽입
         document.getElementById("outputText").innerText = output;
       }
 
