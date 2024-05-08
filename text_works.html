@@ -52,7 +52,13 @@
       }
       .radio_btns {
         display: flex;
+        flex-wrap: wrap; /* 라디오 버튼이 작아질 때 줄바꿈되도록 설정 */
         padding-bottom: 10px;
+      }
+      .radio_btn_group {
+        display: flex; /* 라디오 버튼과 설명 텍스트를 행으로 나열 */
+        align-items: center; /* 세로 중앙 정렬 */
+        margin-bottom: 10px; /* 간격 조정 */
       }
       .radio_btns label {
         padding: 0 10px 0 2px;
@@ -79,10 +85,12 @@
         line-height: 16px;
         text-align: center;
         font-weight: bold;
+        margin-right: 5px; /* 아이콘과 텍스트 간격 조정 */
       }
       .notice {
         font-size: 12px;
         line-height: 22px;
+        padding-top: 10px;
       }
     </style>
   </head>
@@ -90,42 +98,50 @@
     <div class="text_convert_container">
       <!-- 라디오 버튼 -->
       <div class="radio_btns">
-        <input
-          type="radio"
-          id="oddEvenLines"
-          name="conversionType"
-          value="oddEven"
-          data-description="홀수 줄은 'ㆍ' 말머리 추가, 짝수 줄은 ' : ' 추가해서 홀수 줄과 연결"
-          checked
-        />
-        <label for="oddEvenLines">복리후생</label><br />
+        <div class="radio_btn_group">
+          <input
+            type="radio"
+            id="oddEvenLines"
+            name="conversionType"
+            value="oddEven"
+            data-description="홀수 줄은 'ㆍ' 말머리 추가, 짝수 줄은 ' : ' 추가해서 홀수 줄과 연결"
+            checked
+          />
+          <label for="oddEvenLines">복리후생</label>
+        </div>
 
-        <input
-          type="radio"
-          id="prependBullet"
-          name="conversionType"
-          value="prependBullet"
-          data-description="문장 앞에 'ㆍ' 말머리 추가"
-        />
-        <label for="prependBullet">말머리 추가</label><br />
+        <div class="radio_btn_group">
+          <input
+            type="radio"
+            id="prependBullet"
+            name="conversionType"
+            value="prependBullet"
+            data-description="문장 앞에 'ㆍ' 말머리 추가"
+          />
+          <label for="prependBullet">말머리 추가</label>
+        </div>
 
-        <input
-          type="radio"
-          id="removeEmptyLines"
-          name="conversionType"
-          value="removeEmptyLines"
-          data-description="연속 br 태그 제거"
-        />
-        <label for="removeEmptyLines">연속 줄바꿈 제거</label>
+        <div class="radio_btn_group">
+          <input
+            type="radio"
+            id="removeEmptyLines"
+            name="conversionType"
+            value="removeEmptyLines"
+            data-description="연속 br 태그 제거"
+          />
+          <label for="removeEmptyLines">연속 줄바꿈 제거</label>
+        </div>
 
-        <input
-          type="radio"
-          id="removeNumberedLines"
-          name="conversionType"
-          value="removeNumberedLines"
-          data-description=" 문장 앞의 '1. 2. 3.…', '1) 2) 3)…'과 같은 넘버링을 제거하고 'ㆍ'말머리로 변경"
-        />
-        <label for="removeNumberedLines">넘버링 제거</label>
+        <div class="radio_btn_group">
+          <input
+            type="radio"
+            id="removeNumberedLines"
+            name="conversionType"
+            value="removeNumberedLines"
+            data-description=" 문장 앞의 '1. 2. 3.…', '1) 2) 3)…'과 같은 넘버링을 제거하고 'ㆍ'말머리로 변경"
+          />
+          <label for="removeNumberedLines">넘버링 제거</label>
+        </div>
       </div>
       <div class="radio_info_wrap">
         <p class="radio_info">
