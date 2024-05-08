@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>텍스트 변환기</title>
+    <link rel="icon" type="image/x-icon" href="text_converter.ico" />
+    <title>텍스트 변환</title>
     <style>
       * {
         padding: 0;
@@ -13,6 +14,7 @@
         vertical-align: baseline;
         box-sizing: border-box;
       }
+
       .text_convert_container {
         max-width: 860px;
         margin: 0px auto;
@@ -55,6 +57,33 @@
       .radio_btns label {
         padding: 0 10px 0 2px;
       }
+
+      .radio_info_wrap {
+        padding: 0 0 10px;
+      }
+      .radio_info {
+        font-size: 12px;
+        padding: 6px 12px;
+        background-color: #b8e7ba59;
+        border-radius: 30px;
+        display: inline-block;
+        color: #888;
+      }
+      .info_icon {
+        display: inline-block;
+        border: 2px solid rgb(154, 154, 154);
+        color: rgb(154, 154, 154);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        line-height: 16px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .notice {
+        font-size: 12px;
+        line-height: 22px;
+      }
     </style>
   </head>
   <body>
@@ -66,6 +95,7 @@
           id="oddEvenLines"
           name="conversionType"
           value="oddEven"
+          data-description="홀수 줄은 'ㆍ' 말머리 추가, 짝수 줄은 ' : ' 추가해서 홀수 줄과 연결"
           checked
         />
         <label for="oddEvenLines">복리후생</label><br />
@@ -75,6 +105,7 @@
           id="prependBullet"
           name="conversionType"
           value="prependBullet"
+          data-description="문장 앞에 'ㆍ' 말머리 추가"
         />
         <label for="prependBullet">말머리 추가</label><br />
 
@@ -83,6 +114,7 @@
           id="removeEmptyLines"
           name="conversionType"
           value="removeEmptyLines"
+          data-description="연속 br 태그 제거"
         />
         <label for="removeEmptyLines">연속 줄바꿈 제거</label>
 
@@ -91,8 +123,17 @@
           id="removeNumberedLines"
           name="conversionType"
           value="removeNumberedLines"
+          data-description=" 문장 앞의 '1. 2. 3.…', '1) 2) 3)…'과 같은 넘버링을 제거하고 'ㆍ'말머리로 변경"
         />
         <label for="removeNumberedLines">넘버링 제거</label>
+      </div>
+      <div class="radio_info_wrap">
+        <p class="radio_info">
+          <span class="info_icon">i</span>&nbsp;<span id="descriptionContainer"
+            >홀수 줄은 'ㆍ' 말머리 추가, 짝수 줄은 ' : ' 추가해서 홀수 줄과
+            연결</span
+          >
+        </p>
       </div>
 
       <textarea
@@ -110,6 +151,12 @@
       <!-- 카피 버튼 -->
       <div class="btn_wrap">
         <button class="btn btn2" onclick="copyText()">텍스트 복사</button>
+      </div>
+
+      <div class="notice">
+        ※ 텍스트 복사 버튼으로 복사한 것은 메모장에 복붙하지 않아도 됩니다.
+        <br />
+        ※ 추가 문의사항이나 더 편리한 아이디어가 떠오르면 지와씨에게 🙂
       </div>
     </div>
 
@@ -150,7 +197,7 @@
         } else if (conversionType === "removeNumberedLines") {
           var lines = input.split("\n");
           for (var i = 0; i < lines.length; i++) {
-            lines[i] = lines[i].replace(/^"|"\s*|\d+\.?\s*/g, "");
+            lines[i] = lines[i].replace(/^\s*\d+\)?\.?\s*/, ""); // 수정된 부분
             output += "ㆍ" + lines[i] + "\n";
           }
         }
@@ -172,6 +219,16 @@
             console.error("복사 실패ㅠㅠ:", err);
           });
       }
+
+      document
+        .querySelectorAll('input[name="conversionType"]')
+        .forEach((radio) => {
+          radio.addEventListener("change", function () {
+            var description = this.getAttribute("data-description");
+            document.getElementById("descriptionContainer").innerText =
+              description;
+          });
+        });
     </script>
   </body>
 </html>
