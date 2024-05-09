@@ -52,13 +52,13 @@
       }
       .radio_btns {
         display: flex;
-        flex-wrap: wrap; /* 라디오 버튼이 작아질 때 줄바꿈되도록 설정 */
+        flex-wrap: wrap;
         padding-bottom: 10px;
       }
       .radio_btn_group {
-        display: flex; /* 라디오 버튼과 설명 텍스트를 행으로 나열 */
-        align-items: center; /* 세로 중앙 정렬 */
-        margin-bottom: 10px; /* 간격 조정 */
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
       }
       .radio_btns label {
         padding: 0 10px 0 2px;
@@ -85,7 +85,7 @@
         line-height: 16px;
         text-align: center;
         font-weight: bold;
-        margin-right: 5px; /* 아이콘과 텍스트 간격 조정 */
+        margin-right: 5px;
       }
       .notice {
         font-size: 12px;
@@ -143,6 +143,7 @@
           <label for="removeNumberedLines">넘버링 제거</label>
         </div>
       </div>
+      <!-- 버튼 기능 설명 -->
       <div class="radio_info_wrap">
         <p class="radio_info">
           <span class="info_icon">i</span>&nbsp;<span id="descriptionContainer"
@@ -151,24 +152,21 @@
           >
         </p>
       </div>
-
+      <!-- 텍스트 입력  -->
       <textarea
         id="inputText"
         class="textarea"
         placeholder="텍스트 레쯔기릿"
       ></textarea>
-
       <div class="btn_wrap">
         <button class="btn" onclick="convertText()">컨버트</button>
       </div>
-
+      <!-- 텍스트 출력 -->
       <div class="output" id="outputText"></div>
-
-      <!-- 카피 버튼 -->
       <div class="btn_wrap">
         <button class="btn btn2" onclick="copyText()">텍스트 복사</button>
       </div>
-
+      <!-- 독소조항 -->
       <div class="notice">
         ※ 텍스트 복사 버튼으로 복사한 것은 메모장에 복붙하지 않아도 됩니다.
         <br />
