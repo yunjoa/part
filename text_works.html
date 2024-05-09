@@ -116,7 +116,7 @@
             id="prependBullet"
             name="conversionType"
             value="prependBullet"
-            data-description="문장 앞에 'ㆍ' 말머리 추가"
+            data-description="문장 앞에 'ㆍ' 말머리 추가, 문단 앞 뒤 따옴표 제거"
           />
           <label for="prependBullet">말머리 추가</label>
         </div>
@@ -127,7 +127,7 @@
             id="removeEmptyLines"
             name="conversionType"
             value="removeEmptyLines"
-            data-description="연속 br 태그 제거"
+            data-description="연속 br 태그 제거, 문단 앞 뒤 따옴표 제거"
           />
           <label for="removeEmptyLines">연속 줄바꿈 제거</label>
         </div>
@@ -138,7 +138,7 @@
             id="removeNumberedLines"
             name="conversionType"
             value="removeNumberedLines"
-            data-description=" 문장 앞의 '1. 2. 3.…', '1) 2) 3)…'과 같은 넘버링을 제거하고 'ㆍ'말머리로 변경"
+            data-description=" 문장 앞의 '1. 2. 3.…', '1) 2) 3)…'과 같은 넘버링을 제거하고 'ㆍ'말머리로 변경, 문단 앞 뒤 따옴표 제거"
           />
           <label for="removeNumberedLines">넘버링 제거</label>
         </div>
@@ -213,8 +213,9 @@
         } else if (conversionType === "removeNumberedLines") {
           var lines = input.split("\n");
           for (var i = 0; i < lines.length; i++) {
-            lines[i] = lines[i].replace(/^\s*\d+\)?\.?\s*/, ""); // 수정된 부분
-            output += "ㆍ" + lines[i] + "\n";
+            lines[i] = lines[i].replace(/^"\s*|\s*"$/g, "");
+            lines[i] = lines[i].replace(/^\s*\d+\)?\.?\s*/g, "ㆍ");
+            output += lines[i] + "\n";
           }
         }
 
