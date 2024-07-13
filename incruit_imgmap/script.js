@@ -4,19 +4,17 @@ function convertToALink() {
     var imageHeight = parseFloat(document.getElementById('imageHeight').value.trim());
 
     if (isNaN(imageWidth) || isNaN(imageHeight)) {
-        alert('Please enter valid numbers for image width and height.');
+        alert('이미지 사이즈를 기재해주세요!');
         return;
     }
 
-    var regex = /<area shape="(rect|circle|poly)" coords="([^"]+)" href="([^"]+)"(?: alt="([^"]+)")?>/g;
+    var regex = /<area shape="(rect|circle|poly)" coords="([^"]+)" href="([^"]+)"(?: target="([^"]+)")?(?: alt="([^"]+)")?>/g;
     var convertedText = '<div style="position:relative;">';
-
-    var index = 1; // To generate unique IDs for each <a> tag
-
-    convertedText += inputText.replace(regex, function(match, shape, coords, href, alt) {
+			
+    convertedText += inputText.replace(regex, function(match, shape, coords, href, target, alt) {
         var coordsArray = coords.split(',').map(Number);
         var aTag = '';
-
+		
         if (shape === 'rect') {
             var leftPercent = (coordsArray[0] / imageWidth) * 100;
             var topPercent = (coordsArray[1] / imageHeight) * 100;
@@ -25,16 +23,24 @@ function convertToALink() {
             var widthPercent = Math.round((rightPercent - leftPercent) * 100) / 100;
             var heightPercent = Math.round((bottomPercent - topPercent) * 100) / 100;
 
-            aTag = '<a href="' + href + '" target="_blank" style="position: absolute; left: ' + leftPercent.toFixed(2) + '%; top: ' + topPercent.toFixed(2) + '%; width: ' + widthPercent + '%; height: ' + heightPercent + '%; background: red;';
-            if (alt) {
-                aTag += ' title="' + alt.replace(/"/g, '&quot;') + '"';
-            }
-            aTag += '></a>';
-            index++;
-        }
+            aTag = '<a href="' + href + '"';
+                    if (target) {
+                        aTag += ' target="' + target + '"';
+                    }
+                    aTag += ' style="position: absolute; left: ' + leftPercent.toFixed(2) + '%; top: ' + topPercent.toFixed(2) + '%; width: ' + widthPercent + '%; height: ' + heightPercent + '%; background: red;';
+
+                    if (alt) {
+                        aTag += ' title="' + alt.replace(/"/g, '&quot;') + '"';
+                    }
+                    aTag += '></a>';
+                    
+                }
+
+
         return aTag;
     });
 
+	
     convertedText += '</div>';
     document.getElementById('outputTextarea').value = convertedText;
 }
@@ -43,5 +49,5 @@ function convertToALink() {
             var outputTextarea = document.getElementById('outputTextarea');
             outputTextarea.select();
             document.execCommand('copy');
-            alert('텍스트 복사완료!');
+            alert('복사완료!');
         }
