@@ -6,5 +6,87 @@
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
-	background: #EBEBE6;
 }
+        body {
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .wrap {
+            max-width: 860px;
+            margin: 0 auto;
+			margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+			font-size: 12px;
+    		line-height: 22px;
+		    padding-top: 10px;
+        }
+        label {
+            display: inline-block;
+            text-align: right;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+            margin-bottom: 10px;
+			color: #7F7F7F;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+			margin-bottom: 4px;
+    
+        }
+
+	#outputTextarea{ margin-top: 20px}
+	.btn_wrap{ display: flex; justify-content: flex-end}
+
+        button {
+            display: block;
+            padding: 10px 20px;
+            background-color: #ff460a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    
+    	.image-container {
+            position: relative;
+            width: 900px; /* Example width */
+            height: 450px; /* Example height */
+            border: 1px solid black;
+        }
+        .map-area {
+            position: absolute;
+            background: red;
+        }
+        #copyButton {
+            
+            background-color: #000000;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+

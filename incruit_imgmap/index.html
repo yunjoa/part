@@ -3,80 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-A</title>
+  	
+	  <!-- 페북 -->
+    <meta property="og:title" content="area - a 변환" />
+    <meta
+      property="og:url"
+      content="https://yunjoa.github.io/incruit_imgmap/index.html"
+    />
+    <meta property="og:image" content="a_a_meta.png" />
+    <meta
+      property="og:description"
+      content="area 태그를 a링크로 %좌표 잡기."
+    />
+
+    <!-- 트위터 -->
+    <meta name="twitter:card" content="green_heart_image" />
+    <meta name="twitter:title" content="area - a 변환" />
+    <meta
+      name="twitter:url"
+      content="https://yunjoa.github.io/incruit_imgmap/index.html"
+    />
+    <meta name="twitter:image" content="a_a_meta.png" />
+    <meta
+      name="twitter:description"
+      content="area 태그를 a링크로 %좌표 잡기."
+    />
 	
-	
-	    <link rel="stylesheet" href="style.css" />
-    <title>map 반응형</title>
-    	   
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h2>Area to A Link Converter</h2>
-    <p>Paste your area tags into the textarea below and click "Convert" to get the corresponding a tags.</p>
-    <label for="imageWidth">Image Width:</label>
-    <input type="text" id="imageWidth" name="imageWidth" value="900"> px
-    <label for="imageHeight">Image Height:</label>
-    <input type="text" id="imageHeight" name="imageHeight" value="600"> px
-    <br><br>
-    <textarea id="inputTextarea" rows="10" cols="50">
-
-         ㅇㅇ
-    </textarea><br><br>
-    <button onclick="convertToALink()">Convert</button><br><br>
-    <textarea id="outputTextarea" rows="10" cols="50" readonly></textarea>
 	
-
-    <script src="script.js"></script>
-<script>   
-function convertToALink() {
-            // Get the value from textarea
-            var inputText = document.getElementById('inputTextarea').value.trim();
-            var imageWidth = parseFloat(document.getElementById('imageWidth').value.trim());
-            var imageHeight = parseFloat(document.getElementById('imageHeight').value.trim());
-            
-            // Regular expression to match area tag
-            var regex = /<area shape="(rect|circle|poly)" coords="([^"]+)" href="([^"]+)" target="([^"]+)".*?(?: alt="([^"]*)")?>/g;
-            
-            // Replace area tags with corresponding a tags
-            var convertedText = inputText.replace(regex, function(match, shape, coords, href, target, alt) {
-                // Splitting coords into individual values
-                var coordsArray = coords.split(',');
-                
-                // Calculating coordinates as percentages
-                var leftPercent = (parseInt(coordsArray[0]) / imageWidth) * 100;
-                var topPercent = (parseInt(coordsArray[1]) / imageHeight) * 100;
-                var rightPercent = (parseInt(coordsArray[2]) / imageWidth) * 100;
-                var bottomPercent = (parseInt(coordsArray[3]) / imageHeight) * 100;
-                
-                // Rounding percentages to two decimal places
-                leftPercent = Math.round(leftPercent * 100) / 100;
-                topPercent = Math.round(topPercent * 100) / 100;
-                rightPercent = Math.round(rightPercent * 100) / 100;
-                bottomPercent = Math.round(bottomPercent * 100) / 100;
-                
-                // Calculate width and height
-                var widthPercent = Math.round((rightPercent - leftPercent) * 100) / 100;
-                var heightPercent = Math.round((bottomPercent - topPercent) * 100) / 100;
-                
-                // Constructing the <a> tag with position, size, and background color
-                var aTag = '<a href="' + href + '" target="' + target + '" style="position: absolute; left: ' + leftPercent + '%; top: ' + topPercent + '%; width: ' + widthPercent + '%; height: ' + heightPercent + '%; background: red;';
-                
-                // Add alt attribute if it exists
-                if (alt) {
-                    aTag += '" alt="' + alt + '">';
-                } else {
-                    aTag += '">';
-                }
-                
-                aTag += '</a>';
-                
-                return aTag;
-            });
-            
-            // Wrap converted text with <div style="position:relative;">
-            convertedText = '<div style="position:relative;">' + convertedText + '</div>';
-            
-            // Set the converted text to output textarea
-            document.getElementById('outputTextarea').value = convertedText;
-        }</script>
+	<div class="wrap">
+ <h2>Area ▶ A Converter</h2>
+    <p>※ shape="rect"로 적용하여야 하며, alt 값은 title로 나옵니다.</p>
+    <label for="imageWidth">Img 넓이 : </label>
+    <input type="text" id="imageWidth" name="imageWidth" value="900"> px <span style="font-size: 20px; color: #ff460a">/</span>
+    <label for="imageHeight">Img 높이 : </label>
+    <input type="text" id="imageHeight" name="imageHeight" value="450"> px
+    <textarea id="inputTextarea" rows="10" cols="50" placeholder="area 태그를 넣어주세요!"></textarea>
+    <div class="btn_wrap">
+    	<button onclick="convertToALink()">컨버트</button>
+	</div>
+    <textarea id="outputTextarea" rows="10" cols="50" readonly></textarea>
+	<div class="btn_wrap">
+    	<button id="copyButton" onclick="copyToClipboard()">텍스트 복사</button>
+	</div>
+		</div>
+	<script src="script.js"></script>
 </body>
 </html>
