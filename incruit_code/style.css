@@ -15,7 +15,7 @@ a {
   font-size: 14px;
   color: #111;
   display: inline-block;
-/*  pointer-events: none;*/
+  pointer-events: none;
 }
 
 .wrap_center{
