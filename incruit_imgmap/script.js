@@ -8,8 +8,7 @@ function convertToALink() {
         return;
     }
 
-    
-        var regex = /<area shape="(rect|circle|poly)" coords="([^"]+)" href="([^"]+)"(?: target="([^"]+)")?(?: alt="([^"]+)")?>/g;
+    var regex = /<area shape="(rect|circle|poly)" coords="([^"]+)" href="([^"]+)"(?: target="([^"]+)")?(?: alt="([^"]+)")?>/g;
     var convertedText = '<div style="position:relative;">';
 
     convertedText += inputText.replace(regex, function(match, shape, coords, href, target, alt) {
@@ -25,7 +24,11 @@ function convertToALink() {
             var heightPercent = Math.round((bottomPercent - topPercent) * 100) / 100;
 
             aTag = '<a href="' + href + '" style="position: absolute; left: ' + leftPercent.toFixed(2) + '%; top: ' + topPercent.toFixed(2) + '%; width: ' + widthPercent + '%; height: ' + heightPercent + '%; background: red;"';
-            
+
+            if (target) {
+                aTag += ' target="' + target.replace(/"/g, '&quot;') + '"';
+            }
+
             if (alt) {
                 aTag += ' title="' + alt.replace(/"/g, '&quot;') + '"';
             }
