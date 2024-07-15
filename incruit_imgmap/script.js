@@ -8,10 +8,43 @@ function convertToALink() {
         return;
     }
 
-    var regex = /<area shape="(rect|circle|poly)" coords="([^"]+)" href="([^"]+)"(?: target="([^"]+)")?(?: alt="([^"]+)")?>/g;
+    var regex = /<area\s+([^>]+)>/g;
     var convertedText = '<div style="position:relative;">';
 
-    convertedText += inputText.replace(regex, function(match, shape, coords, href, target, alt) {
+    convertedText += inputText.replace(regex, function(match, attributes) {
+        var shape, coords, href, target, alt;
+        var attrs = attributes.split(/\s+/);
+
+        attrs.forEach(function(attr) {
+            var parts = attr.split('=');
+            if (parts.length === 2) {
+                var key = parts[0];
+                var value = parts[1].replace(/"/g, '');
+
+                switch (key) {
+                    case 'shape':
+                        shape = value;
+                        break;
+                    case 'coords':
+                        coords = value;
+                        break;
+                    case 'href':
+                        href = value;
+                        break;
+                    case 'target':
+                        target = value;
+                        break;
+                    case 'alt':
+                        alt = value;
+                        break;
+                }
+            }
+        });
+
+        if (!shape || !coords) {
+            return match;
+        }
+
         var coordsArray = coords.split(',').map(Number);
         var aTag = '';
 
@@ -23,7 +56,11 @@ function convertToALink() {
             var widthPercent = Math.round((rightPercent - leftPercent) * 100) / 100;
             var heightPercent = Math.round((bottomPercent - topPercent) * 100) / 100;
 
-            aTag = '<a href="' + href + '" style="position: absolute; left: ' + leftPercent.toFixed(2) + '%; top: ' + topPercent.toFixed(2) + '%; width: ' + widthPercent + '%; height: ' + heightPercent + '%; background: red;"';
+            aTag = '<a style="position: absolute; left: ' + leftPercent.toFixed(2) + '%; top: ' + topPercent.toFixed(2) + '%; width: ' + widthPercent + '%; height: ' + heightPercent + '%; background: red;"';
+
+            if (href) {
+                aTag += ' href="' + href + '"';
+            }
 
             if (target) {
                 aTag += ' target="' + target.replace(/"/g, '&quot;') + '"';
@@ -42,7 +79,6 @@ function convertToALink() {
     convertedText += '</div>';
     document.getElementById('outputTextarea').value = convertedText;
 }
-
         function copyToClipboard() {
             var outputTextarea = document.getElementById('outputTextarea');
             outputTextarea.select();
