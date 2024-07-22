@@ -4,7 +4,7 @@ function convertToALink() {
     var imageHeight = parseFloat(document.getElementById('imageHeight').value.trim());
 
     if (isNaN(imageWidth) || isNaN(imageHeight)) {
-        alert('Ïù¥ÎØ∏ÏßÄ ÏÇ¨Ïù¥Ï¶àÎ•º Í∏∞Ïû¨Ìï¥Ï£ºÏÑ∏Ïöî!');
+        alert('¿ÃπÃ¡ˆ ªÁ¿Ã¡Ó∏¶ ±‚¿Á«ÿ¡÷ººø‰!');
         return;
     }
 
@@ -13,33 +13,24 @@ function convertToALink() {
 
     convertedText += inputText.replace(regex, function(match, attributes) {
         var shape, coords, href, target, alt;
-        var attrs = attributes.split(/\s+/);
+        
+        var shapeMatch = attributes.match(/shape="([^"]*)"/);
+        var coordsMatch = attributes.match(/coords="([^"]*)"/);
+        var hrefMatch = attributes.match(/href="([^"]*)"/);
+        var targetMatch = attributes.match(/target="([^"]*)"/);
+        var altMatch = attributes.match(/alt="([^"]*)"/);
 
-        attrs.forEach(function(attr) {
-            var parts = attr.split('=');
-            if (parts.length === 2) {
-                var key = parts[0];
-                var value = parts[1].replace(/"/g, '');
+        shape = shapeMatch ? shapeMatch[1] : '';
+        coords = coordsMatch ? coordsMatch[1] : '';
+        href = hrefMatch ? hrefMatch[1] : '';
+        target = targetMatch ? targetMatch[1] : '';
+        alt = altMatch ? altMatch[1] : '';
 
-                switch (key) {
-                    case 'shape':
-                        shape = value;
-                        break;
-                    case 'coords':
-                        coords = value;
-                        break;
-                    case 'href':
-                        href = value;
-                        break;
-                    case 'target':
-                        target = value;
-                        break;
-                    case 'alt':
-                        alt = value;
-                        break;
-                }
-            }
-        });
+        console.log("Shape: ", shape);
+        console.log("Coords: ", coords);
+        console.log("Href: ", href);
+        console.log("Target: ", target);
+        console.log("Alt: ", alt);
 
         if (!shape || !coords) {
             return match;
@@ -79,9 +70,11 @@ function convertToALink() {
     convertedText += '</div>';
     document.getElementById('outputTextarea').value = convertedText;
 }
+
+
         function copyToClipboard() {
             var outputTextarea = document.getElementById('outputTextarea');
             outputTextarea.select();
             document.execCommand('copy');
-            alert('Î≥µÏÇ¨ÏôÑÎ£å!');
+            alert('∫πªÁøœ∑·!');
         }

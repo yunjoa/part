@@ -25,6 +25,7 @@
         h2 {
             text-align: center;
             color: #333;
+			font-size: 1.8em;
         }
         p {
             text-align: center;
@@ -34,6 +35,9 @@
     		line-height: 22px;
 		    padding-top: 10px;
         }
+.color{
+	color:#ff460a
+}
         label {
             display: inline-block;
             text-align: right;

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area to A Link Converter</title>
+    <style>
+        .result-container {
+            position: relative;
+            width: 900px; /* Example width */
+            height: 671px; /* Example height */
+            border: 1px solid black;
+        }
+        .result-container a {
+            position: absolute;
+            background: red;
+        }
+    </style>
+    <script>
+        function convertToALink() {
+            var inputText = document.getElementById('inputTextarea').value.trim();
+            var imageWidth = parseFloat(document.getElementById('imageWidth').value.trim());
+            var imageHeight = parseFloat(document.getElementById('imageHeight').value.trim());
+
+            if (isNaN(imageWidth) || isNaN(imageHeight)) {
+                alert('이미지 사이즈를 기입해주세요😠');
+                return;
+            }
+
+            var regex = /<area shape="(rect|circle|poly)" coords="([^"]+)" href="([^"]+)"(?: target="([^"]+)")?(?: alt="([^"]+)")?>/g;
+            var convertedText = '<div class="result-container">';
+
+            var index = 1; // To generate unique IDs for each <a> tag
+
+            convertedText += inputText.replace(regex, function(match, shape, coords, href, target, alt) {
+                var coordsArray = coords.split(',').map(Number);
+                var aTag = '';
+
+                if (shape === 'rect') {
+                    var leftPercent = (coordsArray[0] / imageWidth) * 100;
+                    var topPercent = (coordsArray[1] / imageHeight) * 100;
+                    var rightPercent = (coordsArray[2] / imageWidth) * 100;
+                    var bottomPercent = (coordsArray[3] / imageHeight) * 100;
+                    var widthPercent = Math.round((rightPercent - leftPercent) * 100) / 100;
+                    var heightPercent = Math.round((bottomPercent - topPercent) * 100) / 100;
+
+                    aTag = '<a href="' + href + '" target="' + (target ? target : '_blank') + '" style="left: ' + leftPercent.toFixed(2) + '%; top: ' + topPercent.toFixed(2) + '%; width: ' + widthPercent + '%; height: ' + heightPercent + '%;';
+                    if (alt) {
+                        aTag += ' title="' + alt.replace(/"/g, '&quot;') + '"';
+                    }
+                    aTag += '"></a>';
+                    index++;
+                }
+                return aTag;
+            });
+
+            convertedText += '</div>';
+            document.getElementById('outputContainer').innerHTML = convertedText;
+        }
+    </script>
+</head>
+<body>
+    <h2>Area to A Link Converter</h2>
+    <p>Paste your area tags into the textarea below and click "Convert" to get the corresponding a tags.</p>
+    <label for="imageWidth">Image Width:</label>
+    <input type="text" id="imageWidth" name="imageWidth" value="900"> px
+    <label for="imageHeight">Image Height:</label>
+    <input type="text" id="imageHeight" name="imageHeight" value="671"> px
+    <br><br>
+    <textarea id="inputTextarea" rows="10" cols="50" placeholder="Paste your area tags here...">&lt;area shape="rect" coords="388,242,514,282" href="#" target="_blank" alt="기간연장"&gt;
+&lt;area shape="rect" coords="252,286,651,312" href="#" target="_blank" alt="기존머시기"&gt;</textarea>
+    <br><br>
+    <button onclick="convertToALink()">Convert</button>
+    <br><br>
+    <div id="outputContainer">
+        <!-- Converted <a> tags will be displayed here -->
+    </div>
+</body>
+</html>
