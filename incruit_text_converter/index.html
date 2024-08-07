@@ -35,8 +35,32 @@
   <body>
     <div class="text_convert_container">
       <!-- 라디오 버튼 -->
+
       <div class="radio_btns">
         <div class="radio_btn_group">
+          <input
+            type="radio"
+            id="option2"
+            name="conversionType"
+            value="option2"
+            data-description="연속 br 제거 ▶ 유니코드 숫자, 알파벳, 한글 넘버링 제거 ▶ 연속 ul/ol 랩핑  ▶ li 태그 랩핑"
+            checked
+          />
+          <label for="option1">ul / ol tag</label>
+        </div>
+
+        <div class="radio_btn_group">
+          <input
+            type="radio"
+            id="option1"
+            name="conversionType"
+            value="option1"
+            data-description="연속 br 제거 ▶ 유니코드 숫자, 알파벳, 한글 넘버링 제거 ▶ li 태그 랩핑"
+          />
+          <label for="option1">li tag</label>
+        </div>
+
+        <!-- <div class="radio_btn_group">
           <input
             type="radio"
             id="tag_li"
@@ -47,6 +71,7 @@
           />
           <label for="tag_li">li 태그</label>
         </div>
+
         <div class="radio_btn_group">
           <input
             type="radio"
@@ -77,7 +102,7 @@
             data-description="연속 br 제거"
           />
           <label for="removeEmptyLines">연속 줄바꿈 제거</label>
-        </div>
+        </div> -->
         <div class="radio_btn_group">
           <input
             type="radio"
@@ -93,7 +118,8 @@
       <div class="radio_info_wrap">
         <p class="radio_info">
           <span class="info_icon">i</span>&nbsp;<span id="descriptionContainer"
-            >문장을 li 태그로 감싸준다</span
+            >연속 br 제거 ▶ 유니코드 숫자, 알파벳, 한글 넘버링 제거 ▶ 연속 ul/ol
+            랩핑 ▶ li 태그 랩핑</span
           >
         </p>
       </div>

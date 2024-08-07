@@ -35,6 +35,33 @@ function convertText() {
 
   // 변환 유형에 따른 처리
   switch (conversionType) {
+    case "option1":
+      var lines = input.split("\n");
+
+      // 빈 줄 제거
+      lines = lines.filter((line) => line.trim() !== "");
+
+      // 번호가 붙은 줄의 번호 제거 (일반 숫자와 유니코드 숫자 모두, 문장 앞에 있을 때만)
+      lines = lines.map((line) =>
+        line.replace(
+          /^\s*(\d+|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|⑪|⑫|⑬|⑭|⑮|⑯|⑰|⑱|⑲|⑳|⑴|⑵|⑶|⑷|⑸|⑹|⑺|⑻|⑼|⑽|⑾|⑿|⒀|⒁|⒂|⒃|⒄|⒅|⒆|⒇|⒈|⒉|⒊|⒋|⒌|⒍|⒎|⒏|⒐|⒑|⒒|⒓|⒔|⒕|⒖|⒗|⒘|⒙|⒚|⒛|⒜|⒝|⒞|⒟|⒠|⒡|⒢|⒣|⒤|⒥|⒦|⒧|⒨|⒩|⒪|⒫|⒬|⒭|⒮|⒯|⒰|⒱|⒲|⒳|⒴|⒵|Ⓐ|Ⓑ|Ⓒ|Ⓓ|Ⓔ|Ⓕ|Ⓖ|Ⓗ|Ⓘ|Ⓙ|Ⓚ|Ⓛ|Ⓜ|Ⓝ|Ⓞ|Ⓟ|Ⓠ|Ⓡ|Ⓢ|Ⓣ|Ⓤ|Ⓥ|Ⓧ|Ⓨ|Ⓩ|ⓐ|ⓑ|ⓒ|ⓓ|ⓔ|ⓕ|ⓖ|ⓗ|ⓘ|ⓙ|ⓚ|ⓛ|ⓜ|ⓝ|ⓞ|ⓟ|ⓠ|ⓡ|ⓢ|ⓣ|ⓤ|ⓥ|ⓦ|ⓧ|ⓨ|⓪|⓫|⓬|⓭|⓮|⓯|⓰|⓱|⓲|⓳|⓴|⓵|⓶|⓷|⓸|⓹|⓺|⓻|⓼|⓽|⓾|⓿)\)?\s*/g,
+          ""
+        )
+      );
+
+      // 문장의 시작에 있는 특정 기호나 숫자 제거
+      lines = lines.map((line) =>
+        line.replace(
+          /^(가|나|다|라|마|바|사|아|자|차|카|타|파|하)\.\s*|㉠|㉡|㉢|㉣|㉤|㉥|㉦|㉧|㉨|㉩|㉪|㉫|㉬|㉭|㉮|㉯|㉰|㉱|㉲|㉳|㉴|㉵|㉶|㉷|㉸|㉹|㉺|㉻|가\)|나\)|다\)|라\)|마\)|바\)|사\)|아\)|자\)|차\)|카\)|타\)|파\)|하\)\s*/g,
+          ""
+        )
+      );
+
+      // 각 줄을 <li> 태그로 감싸기
+      lines.forEach((line) => {
+        output += "<li>" + line + "</li>\n";
+      });
+      break;
     case "tag_li":
       // 각 줄을 <li> 태그로 감싸기
       var lines = input.split("\n");
@@ -51,6 +78,88 @@ function convertText() {
           output += lines[i] + "\n";
         }
       }
+      break;
+
+    case "option2":
+      var lines = input.split("\n");
+
+      // removeEmptyLines
+      var nonEmptyLines = lines.filter(function (line) {
+        return line.trim() !== "";
+      });
+
+      var ulContent = "";
+      var olContent = "";
+      var currentUlChar = "";
+      var inOl = false;
+      var inUl = false;
+
+      function closeTags() {
+        if (inOl) {
+          output += "<ol>\n" + olContent + "</ol>\n";
+          olContent = "";
+          inOl = false;
+        }
+        if (inUl) {
+          output += "<ul>\n" + ulContent + "</ul>\n";
+          ulContent = "";
+          inUl = false;
+        }
+      }
+
+      function getStartingChar(line) {
+        return line.trim().charAt(0);
+      }
+
+      for (var i = 0; i < nonEmptyLines.length; i++) {
+        var line = nonEmptyLines[i].trim();
+        var startingChar = getStartingChar(line);
+
+        // Check if the line matches the removeNumberedLines pattern
+        if (
+          /^\s*(\d+|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|⑪|⑫|⑬|⑭|⑮|⑯|⑰|⑱|⑲|⑳|⑴|⑵|⑶|⑷|⑸|⑹|⑺|⑻|⑼|⑽|⑾|⑿|⒀|⒁|⒂|⒃|⒄|⒅|⒆|⒇|⒈|⒉|⒊|⒋|⒌|⒍|⒎|⒏|⒐|⒑|⒒|⒓|⒔|⒕|⒖|⒗|⒘|⒙|⒚|⒛|⒜|⒝|⒞|⒟|⒠|⒡|⒢|⒣|⒤|⒥|⒦|⒧|⒨|⒩|⒪|⒫|⒬|⒭|⒮|⒯|⒰|⒱|⒲|⒳|⒴|⒵|Ⓐ|Ⓑ|Ⓒ|Ⓓ|Ⓔ|Ⓕ|Ⓖ|Ⓗ|Ⓘ|Ⓙ|Ⓚ|Ⓛ|Ⓜ|Ⓝ|Ⓞ|Ⓟ|Ⓠ|Ⓡ|Ⓢ|Ⓣ|Ⓤ|Ⓥ|Ⓧ|Ⓨ|Ⓩ|ⓐ|ⓑ|ⓒ|ⓓ|ⓔ|ⓕ|ⓖ|ⓗ|ⓘ|ⓙ|ⓚ|ⓛ|ⓜ|ⓝ|ⓞ|ⓟ|ⓠ|ⓡ|ⓢ|ⓣ|ⓤ|ⓥ|ⓦ|ⓧ|ⓨ|⓪|⓫|⓬|⓭|⓮|⓯|⓰|⓱|⓲|⓳|⓴|⓵|⓶|⓷|⓸|⓹|⓺|⓻|⓼|⓽|⓾|⓿)\)?\s*/.test(
+            line
+          )
+        ) {
+          line = line.replace(
+            /^\s*(\d+|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|⑪|⑫|⑬|⑭|⑮|⑯|⑰|⑱|⑲|⑳|⑴|⑵|⑶|⑷|⑸|⑹|⑺|⑻|⑼|⑽|⑾|⑿|⒀|⒁|⒂|⒃|⒄|⒅|⒆|⒇|⒈|⒉|⒊|⒋|⒌|⒍|⒎|⒏|⒐|⒑|⒒|⒓|⒔|⒕|⒖|⒗|⒘|⒙|⒚|⒛|⒜|⒝|⒞|⒟|⒠|⒡|⒢|⒣|⒤|⒥|⒦|⒧|⒨|⒩|⒪|⒫|⒬|⒭|⒮|⒯|⒰|⒱|⒲|⒳|⒴|⒵|Ⓐ|Ⓑ|Ⓒ|Ⓓ|Ⓔ|Ⓕ|Ⓖ|Ⓗ|Ⓘ|Ⓙ|Ⓚ|Ⓛ|Ⓜ|Ⓝ|Ⓞ|Ⓟ|Ⓠ|Ⓡ|Ⓢ|Ⓣ|Ⓤ|Ⓥ|Ⓧ|Ⓨ|Ⓩ|ⓐ|ⓑ|ⓒ|ⓓ|ⓔ|ⓕ|ⓖ|ⓗ|ⓘ|ⓙ|ⓚ|ⓛ|ⓜ|ⓝ|ⓞ|ⓟ|ⓠ|ⓡ|ⓢ|ⓣ|ⓤ|ⓥ|ⓦ|ⓧ|ⓨ|⓪|⓫|⓬|⓭|⓮|⓯|⓰|⓱|⓲|⓳|⓴|⓵|⓶|⓷|⓸|⓹|⓺|⓻|⓼|⓽|⓾|⓿)\)?\s*/,
+            ""
+          );
+          if (!inOl) {
+            closeTags();
+            inOl = true;
+          }
+          olContent += "<li>" + line + "</li>\n";
+        }
+        // Check if the line matches the removeSpecialStartingChars pattern
+        else if (
+          /^(가|나|다|라|마|바|사|아|자|차|카|타|파|하)\.\s*|㉠|㉡|㉢|㉣|㉤|㉥|㉦|㉧|㉨|㉩|㉪|㉫|㉬|㉭|㉮|㉯|㉰|㉱|㉲|㉳|㉴|㉵|㉶|㉷|㉸|㉹|㉺|㉻|가\)|나\)|다\)|라\)|마\)|바\)|사\)|아\)|자\)|차\)|카\)|타\)|파\)|하\)\s*/.test(
+            line
+          )
+        ) {
+          line = line.replace(
+            /^(가|나|다|라|마|바|사|아|자|차|카|타|파|하)\.\s*|㉠|㉡|㉢|㉣|㉤|㉥|㉦|㉧|㉨|㉩|㉪|㉫|㉬|㉭|㉮|㉯|㉰|㉱|㉲|㉳|㉴|㉵|㉶|㉷|㉸|㉹|㉺|㉻|가\)|나\)|다\)|라\)|마\)|바\)|사\)|아\)|자\)|차\)|카\)|타\)|파\)|하\)\s*/,
+            ""
+          );
+          if (!inOl) {
+            closeTags();
+            inOl = true;
+          }
+          olContent += "<li>" + line + "</li>\n";
+        } else {
+          if (!inUl) {
+            closeTags();
+            currentUlChar = startingChar;
+            inUl = true;
+          } else if (startingChar !== currentUlChar) {
+            closeTags();
+            currentUlChar = startingChar;
+          }
+          ulContent += "<li>" + line + "</li>\n";
+        }
+      }
+
+      closeTags();
       break;
 
     case "removeNumberedLines":
